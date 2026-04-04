@@ -10,11 +10,13 @@ import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const webRoot = path.join(__dirname, "..");
 const repoRoot = path.join(webRoot, "..");
-const src = path.join(repoRoot, "data", "assets");
+const srcBundled = path.join(webRoot, "data", "assets");
+const srcMonorepo = path.join(repoRoot, "data", "assets");
+const src = fs.existsSync(srcBundled) ? srcBundled : srcMonorepo;
 const dest = path.join(webRoot, "public", "data", "assets");
 
 if (!fs.existsSync(src)) {
-  console.warn("prepare-public-assets: ../data/assets não encontrado — skip.");
+  console.warn("prepare-public-assets: data/assets não encontrado (web/data nem ../data) — skip.");
   process.exit(0);
 }
 

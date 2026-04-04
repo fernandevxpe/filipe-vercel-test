@@ -31,6 +31,10 @@ yarn-error.log*
 # vercel
 .vercel
 
+# cópia gerada por sync-repo-data.mjs (monorepo → web/data); não versionar
+/data/**
+!/data/.gitkeep
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

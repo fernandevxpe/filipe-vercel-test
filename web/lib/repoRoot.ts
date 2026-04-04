@@ -9,11 +9,16 @@ export function getRepoRoot(): string {
   const env = process.env.FILIPE_REPO_ROOT;
   if (env) {
     const r = path.resolve(env);
-    if (fs.existsSync(path.join(r, "data", "assets"))) return r;
+    if (fs.existsSync(path.join(r, "data", "processed"))) return r;
   }
-  const candidates = [path.resolve(process.cwd(), ".."), path.resolve(process.cwd()), path.resolve(process.cwd(), "..", "..")];
+  const cwd = path.resolve(process.cwd());
+  // Build deploy: dados copiados para web/data (Vercel com Root Directory = web)
+  if (fs.existsSync(path.join(cwd, "data", "processed")) && fs.existsSync(path.join(cwd, "data", "assets"))) {
+    return cwd;
+  }
+  const candidates = [path.resolve(cwd, ".."), cwd, path.resolve(cwd, "..", "..")];
   for (const root of candidates) {
-    if (fs.existsSync(path.join(root, "data", "assets"))) return root;
+    if (fs.existsSync(path.join(root, "data", "processed"))) return root;
   }
-  return path.resolve(process.cwd(), "..");
+  return path.resolve(cwd, "..");
 }

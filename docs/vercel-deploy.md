@@ -33,11 +33,11 @@ git push -u origin main
 
 1. Entra em [vercel.com](https://vercel.com) e faz login (podes usar “Continue with GitHub”).
 2. **Add New Project** → importa o repositório `filipe-estudo`.
-3. **Root Directory**: define **`web`** (importante).
-4. **Framework Preset**: Next.js (detetado automaticamente).
-5. **Build Command**: deixa o default (`npm run build` dentro de `web`) — já corre o script que copia assets.
-6. **Install Command**: `npm install` (default).
-7. **Deploy**.
+3. **Root Directory**: deixa **vazio** (raiz do repositório) — o ficheiro `vercel.json` na raiz já aponta `install`/`build`/`output` para `web/`.  
+   *(Se preferires Root Directory = `web`, o clone do GitHub traz na mesma a pasta `../data` e o `sync-repo-data.mjs` funciona.)*
+4. **Framework Preset**: Next.js.
+5. **Build / Install**: não sobrescrevas — usa o que está em `vercel.json` na raiz.
+6. **Deploy**.
 
 ### 3. Depois do primeiro deploy
 
