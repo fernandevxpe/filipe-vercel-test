@@ -15,6 +15,12 @@ export const metadata: Metadata = {
   description: "Questões reais, pontuação e acompanhamento — Filipe Monteiro",
   manifest: "/manifest.json",
   appleWebApp: { capable: true, title: "Filipe Estudo" },
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico", sizes: "48x48", type: "image/x-icon" },
+    ],
+  },
 };
 
 export const viewport: Viewport = {
