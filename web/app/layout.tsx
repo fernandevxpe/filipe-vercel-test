@@ -47,6 +47,9 @@ export default function RootLayout({
               <Link href="/diagnostico" className="hover:text-amber-200/90">
                 Diagnóstico
               </Link>
+              <Link href="/test" className="hover:text-slate-400 text-slate-500">
+                Teste
+              </Link>
             </nav>
           </div>
         </header>
