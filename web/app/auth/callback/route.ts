@@ -1,13 +1,14 @@
 import { NextResponse } from "next/server";
 import { createServerClient, type SetAllCookies } from "@supabase/ssr";
 import { cookies } from "next/headers";
+import { getSupabaseCredentials } from "@/lib/supabase/credentials";
 
 export async function GET(request: Request) {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!url || !key) {
+  const creds = getSupabaseCredentials();
+  if (!creds) {
     return NextResponse.redirect(new URL("/", request.url));
   }
+  const { url, key } = creds;
 
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get("code");

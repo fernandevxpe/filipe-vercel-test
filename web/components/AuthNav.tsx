@@ -5,15 +5,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { getSupabaseBrowserClient } from "@/lib/supabase/browser";
 
-export default function AuthNav() {
+export default function AuthNav({ supabaseConfigured }: { supabaseConfigured: boolean }) {
   const router = useRouter();
   const [email, setEmail] = useState<string | null | undefined>(undefined);
-  const configured = Boolean(
-    process.env.NEXT_PUBLIC_SUPABASE_URL?.trim() && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim()
-  );
 
   useEffect(() => {
-    if (!configured) {
+    if (!supabaseConfigured) {
       setEmail(null);
       return;
     }
@@ -25,9 +22,9 @@ export default function AuthNav() {
       setEmail(session?.user.email ?? null);
     });
     return () => sub.subscription.unsubscribe();
-  }, [configured]);
+  }, [supabaseConfigured]);
 
-  if (!configured) return null;
+  if (!supabaseConfigured) return null;
 
   if (email === undefined) {
     return <span className="text-slate-500 text-xs tabular-nums">…</span>;

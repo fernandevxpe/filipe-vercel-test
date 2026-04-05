@@ -2,13 +2,14 @@ import { createServerClient, type SetAllCookies } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
+import { getSupabaseCredentials } from "@/lib/supabase/credentials";
 
 export function createSupabaseServerClient(): SupabaseClient {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!url || !key) {
-    throw new Error("Supabase: faltam NEXT_PUBLIC_SUPABASE_URL ou NEXT_PUBLIC_SUPABASE_ANON_KEY");
+  const creds = getSupabaseCredentials();
+  if (!creds) {
+    throw new Error("Supabase: faltam URL e chave anon (NEXT_PUBLIC_* ou SUPABASE_URL / SUPABASE_ANON_KEY)");
   }
+  const { url, key } = creds;
   const cookieStore = cookies();
   return createServerClient(url, key, {
     cookies: {

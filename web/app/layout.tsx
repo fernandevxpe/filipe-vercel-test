@@ -4,6 +4,8 @@ import "./globals.css";
 import Link from "next/link";
 import ClientErrorReporter from "@/components/ClientErrorReporter";
 import AuthNav from "@/components/AuthNav";
+import SupabaseRuntimeInit from "@/components/SupabaseRuntimeInit";
+import { getSupabaseCredentials } from "@/lib/supabase/credentials";
 import { DEPLOY_MARK } from "@/lib/deployMark";
 
 const geistSans = localFont({
@@ -31,9 +33,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const supabaseCreds = getSupabaseCredentials();
+  const supabaseConfigured = !!supabaseCreds;
+
   return (
     <html lang="pt-BR">
       <body className={`${geistSans.variable} font-sans min-h-screen flex flex-col`}>
+        {supabaseCreds ? (
+          <SupabaseRuntimeInit url={supabaseCreds.url} key={supabaseCreds.key} />
+        ) : null}
         <ClientErrorReporter />
         <header className="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-10">
           <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
@@ -61,7 +69,7 @@ export default function RootLayout({
                   Teste
                 </Link>
               </nav>
-              <AuthNav />
+              <AuthNav supabaseConfigured={supabaseConfigured} />
             </div>
           </div>
         </header>
