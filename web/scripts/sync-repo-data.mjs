@@ -23,6 +23,18 @@ if (!fs.existsSync(repoData)) {
 }
 
 copyDir(path.join(repoData, "processed"), path.join(webRoot, "data", "processed"));
+
+// Provas completas (enem/**/prova.json, ssa/**) só servem ao pipeline local; o app lê apenas
+// items_*.json na raiz de processed. Isto evita bundles de serverless >250MB na Vercel.
+const processedDest = path.join(webRoot, "data", "processed");
+for (const sub of ["enem", "ssa"]) {
+  const p = path.join(processedDest, sub);
+  if (fs.existsSync(p)) {
+    fs.rmSync(p, { recursive: true, force: true });
+    console.log(`sync-repo-data: omitido processed/${sub}/ (não usado no runtime)`);
+  }
+}
+
 copyDir(path.join(repoData, "assets"), path.join(webRoot, "data", "assets"));
 
 const jsonFiles = [

@@ -11,6 +11,13 @@ const nextConfig = {
   experimental: {
     // Evita empacotar o binário nativo de forma incorreta nas funções Node da Vercel
     serverComponentsExternalPackages: ["better-sqlite3"],
+    // Reforço: pastas grandes não usadas em runtime (sync-repo-data já as remove do build)
+    outputFileTracingExcludes: {
+      "*": [
+        "./data/processed/enem/**/*",
+        "./data/processed/ssa/**/*",
+      ],
+    },
   },
 };
 
