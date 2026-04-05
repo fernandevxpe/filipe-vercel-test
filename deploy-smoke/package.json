@@ -1,0 +1,8 @@
+{
+  "name": "deploy-smoke",
+  "private": true,
+  "description": "Smoke test estático — sem dependências; build só confirma index.html",
+  "scripts": {
+    "build": "node -e \"const fs=require('fs'); if(!fs.existsSync('index.html')){console.error('Falta index.html na raiz de deploy-smoke'); process.exit(1);} console.log('deploy-smoke: index.html OK');\""
+  }
+}
