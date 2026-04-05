@@ -1,5 +1,5 @@
 # Verifica o site em produção após cada push em main (se o secret existir).
-# GitHub → Settings → Secrets → Actions → New: PRODUCTION_SITE_URL = https://filipe-estudo-tau.vercel.app
+# Secret PRODUCTION_SITE_URL = URL público do site (domínio de produção ou Visit). Com Deployment Protection, o CI recebe 401 até desativares ou usares bypass.
 name: Verify site (smoke)
 
 on:

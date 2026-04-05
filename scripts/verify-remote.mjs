@@ -3,16 +3,19 @@
  * Smoke test do site já deployado (Vercel ou outro).
  *
  * Uso local:
- *   SITE_URL=https://filipe-estudo-tau.vercel.app node scripts/verify-remote.mjs
- *   node scripts/verify-remote.mjs https://filipe-estudo-tau.vercel.app
+ *   SITE_URL=https://teu-projeto.vercel.app node scripts/verify-remote.mjs
  *
- * CI: define o secret PRODUCTION_SITE_URL no GitHub com a mesma URL.
+ * URL do botão «Visit» (…-hash-…-projects.vercel.app) muda por deploy; o domínio
+ * de produção (ex.: projeto-tau.vercel.app) deve ser estável quando estiver bem ligado.
+ *
+ * CI: secret PRODUCTION_SITE_URL. Se a Vercel devolver 401, desativa Deployment Protection
+ * ou usa bypass token para automação (documentação Vercel).
  */
 const baseRaw = process.env.SITE_URL || process.argv[2];
 if (!baseRaw?.trim()) {
   console.error(
     "Defina SITE_URL ou passe a URL como argumento.\n" +
-      "  Ex.: SITE_URL=https://filipe-estudo-tau.vercel.app node scripts/verify-remote.mjs"
+      "  Ex.: SITE_URL=https://filipe-estudo-xxx.vercel.app node scripts/verify-remote.mjs"
   );
   process.exit(2);
 }
@@ -29,7 +32,19 @@ async function main() {
   const home = await get("/");
   console.log(`home: ${home.res.status} ${home.url}`);
   if (!home.res.ok) {
-    console.error("A página inicial não devolveu 200 (verifica Deployment Protection / URL).");
+    if (home.res.status === 401) {
+      console.error(
+        "401 — Deployment Protection ativo: só responde com sessão Vercel.\n" +
+          "Site público: Vercel → Project → Settings → Deployment Protection → desativar (Production e/ou Preview).\n" +
+          "O smoke test em CI falha com 401 até lá."
+      );
+    } else if (home.res.status === 404) {
+      console.error(
+        "404 NOT_FOUND — domínio sem deployment associado. Usa o URL exacto do botão «Visit» no deploy Ready."
+      );
+    } else {
+      console.error(`Home devolveu HTTP ${home.res.status} — verifica URL e configuração na Vercel.`);
+    }
     process.exit(1);
   }
   if (!home.text.includes("Filipe") && !home.text.includes("Painel")) {
