@@ -2,6 +2,12 @@
 const nextConfig = {
   // Na Vercel o lint por vezes falha por PATH/env diferente do local — não bloqueia o deploy
   eslint: { ignoreDuringBuilds: true },
+  async redirects() {
+    return [
+      // Browsers pedem /favicon.ico por defeito; só temos favicon.svg em public/
+      { source: "/favicon.ico", destination: "/favicon.svg", permanent: false },
+    ];
+  },
   experimental: {
     // Evita empacotar o binário nativo de forma incorreta nas funções Node da Vercel
     serverComponentsExternalPackages: ["better-sqlite3"],

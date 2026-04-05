@@ -7,8 +7,5 @@
   "theme_color": "#0f172a",
   "lang": "pt-BR",
   "description": "Questões reais ENEM e SSA UPE com acompanhamento.",
-  "icons": [
-    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
-    { "src": "/favicon.ico", "sizes": "48x48", "type": "image/x-icon", "purpose": "any" }
-  ]
+  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
 }
