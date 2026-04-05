@@ -42,9 +42,15 @@ function LoginForm({ supabaseReady }: { supabaseReady: boolean }) {
           Em local, usa <code className="text-slate-500">web/.env.local</code> com as mesmas chaves e reinicia{" "}
           <code className="text-slate-500">npm run dev</code>.
         </p>
-        <Link href="/" className="text-sky-400 hover:underline text-sm inline-block">
-          ← Início
-        </Link>
+        <div className="flex flex-wrap gap-x-3 gap-y-1 text-sm">
+          <Link href="/bem-vindo" className="text-sky-400 hover:underline">
+            Página inicial temática
+          </Link>
+          <span className="text-slate-600">·</span>
+          <Link href="/" className="text-slate-400 hover:underline">
+            Painel (após entrar)
+          </Link>
+        </div>
       </div>
     );
   }
@@ -136,8 +142,8 @@ function LoginForm({ supabaseReady }: { supabaseReady: boolean }) {
           Sair (se já estiveres dentro)
         </button>
         <span className="text-slate-600">·</span>
-        <Link href="/" className="text-slate-400 hover:text-slate-300 hover:underline">
-          Painel
+        <Link href="/bem-vindo" className="text-slate-400 hover:text-slate-300 hover:underline">
+          Página temática
         </Link>
       </div>
     </div>
